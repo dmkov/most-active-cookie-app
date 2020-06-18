@@ -1,14 +1,20 @@
 package com.dmkov;
 
 import java.io.File;
+import java.util.Arrays;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class CommandArguments {
-
   private String filename;
   private String date;
 
+  private static final Logger logger = LogManager.getLogger();
+
   public CommandArguments(String[] args) {
+    logger.debug("Starting argument parsing: " + Arrays.toString(args));
     parseArguments(args);
+    logger.debug("Finished argument parsing.");
   }
 
   public String getFilename() {
@@ -32,6 +38,7 @@ public class CommandArguments {
     if (!file.exists() || !file.isFile()) {
       throw new IllegalArgumentException("Log file specified in arguments does not exist");
     }
+    logger.debug("Parsed filename: " + args[0]);
 
     return args[0];
   }
@@ -51,6 +58,7 @@ public class CommandArguments {
     if (value == null) {
       throw new IllegalArgumentException("Date parameter is not specified in the argument list");
     }
+    logger.debug("Parsed date: " + value);
 
     return value;
   }
