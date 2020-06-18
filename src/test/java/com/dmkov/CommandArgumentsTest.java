@@ -3,6 +3,7 @@ package com.dmkov;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 
 public class CommandArgumentsTest {
@@ -46,7 +47,16 @@ public class CommandArgumentsTest {
     String[] args = new String[] {"src/test/resources/example_cookie_log.csv", "2018-12-09"};
     IllegalArgumentException exception =
         assertThrows(IllegalArgumentException.class, () -> new CommandArguments(args));
-    assertEquals("Date parameter is not specified in the argument list", exception.getMessage());
+    assertEquals("Date parameter is not specified or can not be parsed", exception.getMessage());
+  }
+
+  @Test
+  public void exceptionIsThrownWhenDateCanNotBeParsed() {
+    // file reading should be mocked in unit tests for better experience
+    String[] args = new String[] {"src/test/resources/example_cookie_log.csv", "-d", "20181209"};
+    IllegalArgumentException exception =
+        assertThrows(IllegalArgumentException.class, () -> new CommandArguments(args));
+    assertEquals("Date parameter is not specified or can not be parsed", exception.getMessage());
   }
 
   @Test
@@ -62,6 +72,6 @@ public class CommandArgumentsTest {
     // file reading should be mocked in unit tests for better experience
     String[] args = new String[] {"src/test/resources/example_cookie_log.csv", "-d", "2018-12-09"};
     CommandArguments commandArguments = new CommandArguments(args);
-    assertEquals(args[2], commandArguments.getDate());
+    assertEquals(LocalDate.parse(args[2]), commandArguments.getDate());
   }
 }

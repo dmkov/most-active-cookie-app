@@ -10,7 +10,7 @@ public class Application {
     logger.debug("Application started");
 
     CommandArguments commandArguments = new CommandArguments(args);
-    // get file and date from arguments
+
     // load data from file
     // output the result
 

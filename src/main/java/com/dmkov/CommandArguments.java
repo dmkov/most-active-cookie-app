@@ -1,13 +1,17 @@
 package com.dmkov;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Arrays;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class CommandArguments {
   private String filename;
-  private String date;
+  private LocalDate date;
 
   private static final Logger logger = LogManager.getLogger();
 
@@ -21,7 +25,7 @@ public class CommandArguments {
     return filename;
   }
 
-  public String getDate() {
+  public LocalDate getDate() {
     return date;
   }
 
@@ -32,10 +36,10 @@ public class CommandArguments {
 
   private String parseFilename(String[] args) {
     if (args == null || args.length < 1) {
-      throw new IllegalArgumentException("Log file for parsing is not specified in the argument list");
+      throw new IllegalArgumentException(
+          "Log file for parsing is not specified in the argument list");
     }
-    File file = new File(args[0]);
-    if (!file.exists() || !file.isFile()) {
+    if (!isFileValid(args[0])) {
       throw new IllegalArgumentException("Log file specified in arguments does not exist");
     }
     logger.debug("Parsed filename: " + args[0]);
@@ -43,7 +47,12 @@ public class CommandArguments {
     return args[0];
   }
 
-  private String parseDate(String[] args) {
+  private boolean isFileValid(String filenameValue) {
+    File file = new File(filenameValue);
+    return file.exists() && file.isFile();
+  }
+
+  private LocalDate parseDate(String[] args) {
     if (args == null || args.length < 2) {
       throw new IllegalArgumentException("Date parameter is not specified in the argument list");
     }
@@ -55,12 +64,22 @@ public class CommandArguments {
         break;
       }
     }
-    if (value == null) {
-      throw new IllegalArgumentException("Date parameter is not specified in the argument list");
+    if (value == null || !isDateValid(value)) {
+      throw new IllegalArgumentException("Date parameter is not specified or can not be parsed");
     }
     logger.debug("Parsed date: " + value);
 
-    return value;
+    return LocalDate.parse(value);
   }
 
+  private boolean isDateValid(String dateValue) {
+    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    dateFormat.setLenient(false);
+    try {
+      dateFormat.parse(dateValue);
+    } catch (ParseException e) {
+      return false;
+    }
+    return true;
+  }
 }
