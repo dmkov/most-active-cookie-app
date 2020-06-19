@@ -15,7 +15,7 @@ public class CommandArguments {
 
   private static final Logger logger = LogManager.getLogger();
 
-  public CommandArguments(String[] args) {
+  public CommandArguments(final String[] args) {
     logger.debug("Starting argument parsing: " + Arrays.toString(args));
     parseArguments(args);
     logger.debug("Finished argument parsing.");
@@ -29,12 +29,12 @@ public class CommandArguments {
     return date;
   }
 
-  private void parseArguments(String[] args) {
+  private void parseArguments(final String[] args) {
     filename = parseFilename(args);
     date = parseDate(args);
   }
 
-  private String parseFilename(String[] args) {
+  private String parseFilename(final String[] args) {
     if (args == null || args.length < 1) {
       throw new IllegalArgumentException(
           "Log file for parsing is not specified in the argument list");
@@ -47,12 +47,12 @@ public class CommandArguments {
     return args[0];
   }
 
-  private boolean isFileValid(String filenameValue) {
+  private boolean isFileValid(final String filenameValue) {
     File file = new File(filenameValue);
     return file.exists() && file.isFile();
   }
 
-  private LocalDate parseDate(String[] args) {
+  private LocalDate parseDate(final String[] args) {
     if (args == null || args.length < 2) {
       throw new IllegalArgumentException("Date parameter is not specified in the argument list");
     }
@@ -72,7 +72,7 @@ public class CommandArguments {
     return LocalDate.parse(value);
   }
 
-  private boolean isDateValid(String dateValue) {
+  private boolean isDateValid(final String dateValue) {
     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     dateFormat.setLenient(false);
     try {
