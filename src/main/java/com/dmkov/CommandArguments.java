@@ -18,7 +18,6 @@ public class CommandArguments {
   public CommandArguments(final String[] args) {
     logger.debug("Starting argument parsing: " + Arrays.toString(args));
     parseArguments(args);
-    logger.debug("Finished argument parsing.");
   }
 
   public String getFilename() {

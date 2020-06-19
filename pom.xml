@@ -7,6 +7,7 @@
   <groupId>com.dmkov</groupId>
   <artifactId>most-active-cookie</artifactId>
   <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
 
   <name>Most Active Cookie</name>
 
@@ -21,6 +22,7 @@
     <plugins.maven-compiler.version>3.8.1</plugins.maven-compiler.version>
     <plugins.maven-surefire.version>2.22.2</plugins.maven-surefire.version>
     <plugins.maven-jar.version>3.0.2</plugins.maven-jar.version>
+    <plugins.maven-dependency.version>3.1.2</plugins.maven-dependency.version>
   </properties>
 
   <dependencies>
@@ -44,28 +46,43 @@
   </dependencies>
 
   <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <artifactId>maven-clean-plugin</artifactId>
-          <version>${plugins.maven-clean.version}</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>${plugins.maven-compiler.version}</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>${plugins.maven-surefire.version}</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-jar-plugin</artifactId>
-          <version>${plugins.maven-jar.version}</version>
-          <configuration>
-            <finalName>most-active-cookie</finalName>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
+    <plugins>
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>${plugins.maven-clean.version}</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${plugins.maven-compiler.version}</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${plugins.maven-surefire.version}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <finalName>most-active-cookie</finalName>
+              <archive>
+                <manifest>
+                  <mainClass>com.dmkov.Application</mainClass>
+                </manifest>
+              </archive>
+              <descriptorRefs>
+                <descriptorRef>jar-with-dependencies</descriptorRef>
+              </descriptorRefs>
+              <appendAssemblyId>false</appendAssemblyId>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
 </project>

@@ -17,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 public class FileReader implements CookiesReader {
   private static final Logger logger = LogManager.getLogger();
 
+  @Override
   public List<CookieLog> readCookiesFromSource(final String path, final LocalDate date) {
     logger.debug("Started cookies loading");
 
@@ -25,7 +26,7 @@ public class FileReader implements CookiesReader {
     final ZonedDateTime filterEndTime = date.atStartOfDay(utcZone).plusDays(1);
     List<CookieLog> list = loadCookiesFromFile(path, filterStartTime, filterEndTime);
 
-    logger.debug(list.size() + " cookies were loaded for the given date");
+    logger.debug(list.size() + " cookie(s) were loaded for the given date");
     return list;
   }
 

@@ -1,6 +1,10 @@
 package com.dmkov;
 
+import com.dmkov.aggregator.HashMapAggregator;
+import com.dmkov.aggregator.MostActiveCookieAggregator;
 import com.dmkov.model.CookieLog;
+import com.dmkov.output.ConsoleOutput;
+import com.dmkov.output.ResultOutput;
 import com.dmkov.reader.CookiesReader;
 import com.dmkov.reader.FileReader;
 import java.util.List;
@@ -18,9 +22,11 @@ public class Application {
     List<CookieLog> cookies = cookiesReader.readCookiesFromSource(
         commandArguments.getFilename(), commandArguments.getDate()
     );
-    // load data from file
-    // output the result
 
-    logger.debug("Application ended");
+    MostActiveCookieAggregator aggregator = new HashMapAggregator();
+    List<String> result = aggregator.getMostActiveCookies(cookies);
+
+    ResultOutput console = new ConsoleOutput();
+    console.outputResult(result);
   }
 }
