@@ -15,7 +15,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
-    <apache.log4j.version>2.13.3</apache.log4j.version>
+    <apache.log4j.version>2.15.0</apache.log4j.version>
     <junit.jupiter.version>5.6.2</junit.jupiter.version>
 
     <plugins.maven-clean.version>3.1.0</plugins.maven-clean.version>
